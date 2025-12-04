@@ -28,10 +28,10 @@ Chaque utilisateur peut proposer des challenges, voir et commenter ceux des autr
 
 | Branche            | Responsable    | Contenu                                |
 |-------------------|----------------|---------------------------------------|
-| feature/frontend   | Antoine / toi  | Pages React, composants UI             |
+| feature/frontend   | Antoine / Pascal  | Pages React, composants UI             |
 | feature/backend    | John           | Routes Express, logique API, chat     |
 | feature/database   | Josselin       | SQLite, tables, requêtes               |
-| feature/chat       | John / toi     | Socket.io + intégration chat           |
+| feature/chat       | John / Pascal     | Socket.io + intégration chat           |
 
 ### Comment travailler sur une branche
 
