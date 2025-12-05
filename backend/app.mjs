@@ -2,6 +2,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import express from "express";
+import "./config/database.mjs"
+import userRoutes from "./routes/userRoutes.mjs"
 
 dotenv.config();
 
@@ -17,7 +19,7 @@ app.use(cors({
 
 //routes global 
 
-
+app.use("/users",userRoutes);
 
 
 
