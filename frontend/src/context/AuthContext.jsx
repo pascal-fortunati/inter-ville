@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, useMemo } from 'react';
-import api, { setAuthToken } from '../api/client';
+import { createContext, useContext, useMemo, useState } from 'react';
+import api, { setAuthToken } from '../api/client.jsx';
 
 const AuthContext = createContext(null);
 

@@ -1,13 +1,14 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import NavBar from './components/NavBar';
-import RequireAuth from './components/RequireAuth';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import ChallengeList from './pages/ChallengeList';
-import ChallengeDetail from './pages/ChallengeDetail';
-import Profile from './pages/Profile';
-import Chat from './pages/Chat';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import NavBar from './components/NavBar.jsx';
+import RequireAuth from './components/RequireAuth.jsx';
+import { AuthProvider } from './context/AuthContext.jsx';
+import Home from './Home.jsx';
+import ChallengeDetail from './pages/ChallengeDetail.jsx';
+import Chat from './pages/Chat.jsx';
+import Login from './pages/Login.jsx';
+import Profile from './pages/Profile.jsx';
+import Register from './pages/Register.jsx';
+import "./tailwind.css";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
           <NavBar />
           <div className="container mx-auto px-4 py-6">
             <Routes>
-              <Route path="/" element={<ChallengeList />} />
+              <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/challenges/:id" element={<ChallengeDetail />} />
