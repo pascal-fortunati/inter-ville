@@ -7,7 +7,7 @@ export function createUser(username, email, password, town, promo) {
 
     const stmt = db.prepare(query);
     const result = stmt.run(username, email, password, town, promo);
-    return result.lastInsertRowid;
+    return result
 }
 
 export function getAllUsers() {
@@ -21,4 +21,16 @@ export function getUserById(id) {
     const query = `SELECT id, username, email, town, promo, created_at FROM users WHERE id = ?`;
     const stmt = db.prepare(query)
     return stmt.get(id)
+}
+
+export function getUserByEmail(email) {
+    const query = `SELECT id, username, email, town, promo, created_at FROM users WHERE email = ?`;
+    const stmt = db.prepare(query)
+    return stmt.get(email)
+}
+
+export function getUserByUsername(username) {
+    const query = `SELECT id, username, email, town, promo, created_at FROM users WHERE username = ?`;
+    const stmt = db.prepare(query)
+    return stmt.get(username)
 }
