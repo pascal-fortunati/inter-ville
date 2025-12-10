@@ -24,7 +24,7 @@ export function getUserById(id) {
 }
 
 export function getUserByEmail(email) {
-    const query = `SELECT id, username, email, town, promo, created_at FROM users WHERE email = ?`;
+    const query = `SELECT * FROM users WHERE email = ?`;
     const stmt = db.prepare(query)
     return stmt.get(email)
 }
