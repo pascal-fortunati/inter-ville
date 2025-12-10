@@ -12,9 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
     avatar TEXT DEFAULT NULL,
 
     is_verified BOOLEAN NOT NULL DEFAULT 0,
-    verification_token TEXT DEFAULT NULL,
-    verified_at DATETIME DEFAULT NULL,
-
+    
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
