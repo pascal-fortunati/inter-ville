@@ -11,14 +11,14 @@ export function createUser(username, email, password, town, promo) {
 }
 
 export function getAllUsers() {
-    const query = "SELECT id, username, email, town, promo, created_at FROM users";
+    const query = "SELECT * FROM users";
     const stmt = db.prepare(query);
     const result = stmt.all();
     return result;
 }
 
 export function getUserById(id) {
-    const query = `SELECT id, username, email, town, promo, created_at FROM users WHERE id = ?`;
+    const query = `SELECT * FROM users WHERE id = ?`;
     const stmt = db.prepare(query)
     return stmt.get(id)
 }
@@ -30,7 +30,7 @@ export function getUserByEmail(email) {
 }
 
 export function getUserByUsername(username) {
-    const query = `SELECT id, username, email, town, promo, created_at FROM users WHERE username = ?`;
+    const query = `SELECT * FROM users WHERE username = ?`;
     const stmt = db.prepare(query)
     return stmt.get(username)
 }

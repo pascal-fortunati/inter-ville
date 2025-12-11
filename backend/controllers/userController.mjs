@@ -1,6 +1,9 @@
 import { getAllUsers, getUserById, getUserByEmail, getUserByUsername, createUser } from "../models/userModel.mjs";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
+import dotenv from "dotenv"
+
+dotenv.config();
 
 const JWT_SECRET = process.env.PRIVATE_JWT_KEY;
 
@@ -24,11 +27,16 @@ export function getUsers(req, res) {
     try {
         const users = getAllUsers();
 
-        if (!users) {
+        if (users.length === 0) {
             return sendErrors(res, [{ field: "global", message: "Aucun utilisateur trouvée" }], 400)
         }
 
-        return res.status(200).json(users)
+        const safeUsers = users.map((user) => {
+            const { password: passwordUser, ...safeUser } = user;
+            return safeUser;
+        })
+
+        return res.status(200).json(safeUsers)
     } catch (err) {
         return catchError(res, err)
     }
@@ -96,18 +104,9 @@ export async function login(req, res) {
             sameSite: "lax"
         });
 
-        const data = {
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            town: user.town,
-            promo: user.promo,
-            role: user.role,
-            avatar: user.avatar || null,
-            is_verified: user.is_verified,
-            created_at: user.created_at
-        }
-        return res.status(200).json({ message: "Connexion réussie !", user: data });
+        const { password: passwordUser, ...safeUser } = user;
+
+        return res.status(200).json({ message: "Connexion réussie !", user: safeUser });
 
 
     } catch (err) {
@@ -121,15 +120,14 @@ export function getUser(req, res) {
 
         const user = getUserById(id)
 
-        if (req.user.id !== id && req.user.role !== "admin") {
-            return sendErrors(res, [{ field: "global", message: "Accès refusé" }], 403);
-        }
-
         if (!user) {
             return sendErrors(res, [{ field: "global", message: "Utilisateur introuvable" }], 400)
         }
 
-        return res.status(200).json(user);
+        const { password: passwordUser, ...safeUser } = user;
+
+
+        return res.status(200).json(safeUser);
     } catch (err) {
         return catchError(res, err)
     }
