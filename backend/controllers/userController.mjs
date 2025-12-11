@@ -109,3 +109,7 @@ export async function login(req, res) {
         return catchError(res, err)
     }
 }
+
+export function getUserById() {
+    
+}
