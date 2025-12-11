@@ -14,9 +14,7 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <div className="min-h-screen bg-base-200">
           <NavBar />
-          <div className="container mx-auto px-4 py-6">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
@@ -25,8 +23,6 @@ function App() {
               <Route path="/profile" element={<RequireAuth><Profile /></RequireAuth>} />
               <Route path="/chat" element={<Chat />} />
             </Routes>
-          </div>
-        </div>
       </BrowserRouter>
     </AuthProvider>
   );
