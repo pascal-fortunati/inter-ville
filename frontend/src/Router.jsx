@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import NavBar from './components/NavBar.jsx';
+import NavBar from './components/Header.jsx';
 import RequireAuth from './components/RequireAuth.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 import Home from './Home.jsx';
