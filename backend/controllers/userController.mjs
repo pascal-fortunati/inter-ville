@@ -23,7 +23,12 @@ function catchError(res, err) {
 export function getUsers(req, res) {
     try {
         const users = getAllUsers();
-        res.status(200).json(users)
+
+        if (!users) {
+            return sendErrors(res, [{ field: "global", message: "Aucun utilisateur trouvée" }], 400)
+        }
+
+        return res.status(200).json(users)
     } catch (err) {
         return catchError(res, err)
     }
@@ -110,6 +115,22 @@ export async function login(req, res) {
     }
 }
 
-export function getUserById() {
-    
+export function getUser(req, res) {
+    try {
+        const id = req.params.id;
+
+        const user = getUserById(id)
+
+        if (req.user.id !== id && req.user.role !== "admin") {
+            return sendErrors(res, [{ field: "global", message: "Accès refusé" }], 403);
+        }
+
+        if (!user) {
+            return sendErrors(res, [{ field: "global", message: "Utilisateur introuvable" }], 400)
+        }
+
+        return res.status(200).json(user);
+    } catch (err) {
+        return catchError(res, err)
+    }
 }
