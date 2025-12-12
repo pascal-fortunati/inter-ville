@@ -2,9 +2,7 @@ import db from "../config/database.mjs"
 
 
 export function createUser(username, email, password, town, promo) {
-
     const query = "INSERT INTO users (username,email,password,town,promo) VALUES (?,?,?,?,?)";
-
     const stmt = db.prepare(query);
     const result = stmt.run(username, email, password, town, promo);
     return result
@@ -33,4 +31,18 @@ export function getUserByUsername(username) {
     const query = `SELECT * FROM users WHERE username = ?`;
     const stmt = db.prepare(query)
     return stmt.get(username)
+}
+
+export function updateUserById(id) {
+    const query = `UPDATE users set WHERE id = ?`
+    const stmt = db.prepare(query);
+    const result = stmt.run(id);
+    return result.changes;
+}
+
+export function deleteUserById(id) {
+    const query = `DELETE FROM users WHERE id = ?`;
+    const stmt = db.prepare(query);
+    const result = stmt.run(id);
+    return result.changes;
 }
