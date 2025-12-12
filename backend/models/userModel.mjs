@@ -33,10 +33,53 @@ export function getUserByUsername(username) {
     return stmt.get(username)
 }
 
-export function updateUserById(id) {
-    const query = `UPDATE users set WHERE id = ?`
+export function updateUserById(
+    id,
+    username,
+    name,
+    lastname,
+    email,
+    password,
+    town,
+    promo,
+    role,
+    avatar,
+    isVerified,
+    createdAt
+) {
+    const query = `
+    UPDATE users
+    SET
+      username = ?,
+      name = ?,
+      lastname = ?,
+      email = ?,
+      password = ?,
+      town = ?,
+      promo = ?,
+      role = ?,
+      avatar = ?,
+      is_verified = ?,
+      created_at = ?
+    WHERE id = ?
+  `;
+
     const stmt = db.prepare(query);
-    const result = stmt.run(id);
+    const result = stmt.run(
+        username,
+        name,
+        lastname,
+        email,
+        password,
+        town,
+        promo,
+        role,
+        avatar,
+        isVerified,
+        createdAt,
+        id
+    );
+
     return result.changes;
 }
 
