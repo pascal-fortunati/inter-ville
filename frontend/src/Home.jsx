@@ -44,12 +44,13 @@ export default function Home() {
         <section className="hero min-h-[40vh] bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl">
           <div className="hero-content text-center">
             <div className="max-w-xl">
-               <div className="flex flex-col items-center justify-center gap-3">
+               <div className="flex flex-col items-center justify-center gap-1 md:gap-2 lg:gap-2 xl:gap-2">
                 <div
-                  className="h-12 w-[220px]"
+                  className="h-auto w-60 sm:w-72 md:w-80 lg:w-[28rem] xl:w-[32rem] bg-primary"
                   role="img"
-                  aria-label="La Plateforme"
+                  aria-label="Logo"
                   style={{
+                    aspectRatio: '5 / 1',
                     WebkitMaskImage: 'url(/logo.lp.png)',
                     maskImage: 'url(/logo.lp.png)',
                     WebkitMaskRepeat: 'no-repeat',
@@ -58,11 +59,10 @@ export default function Home() {
                     maskPosition: 'center',
                     WebkitMaskSize: 'contain',
                     maskSize: 'contain',
-                    backgroundColor: 'hsl(var(--p))',
                   }}
                 />
-                <h1 className="text-5xl font-semibold">Challenges</h1>
-              </div>
+                <h1 className="text-5xl font-semibold leading-tight">Challenges</h1>
+               </div>
               <p className="py-6">Challenges des étudiants. Crée, participe, recommence.</p>
               <div className="join">
                 <Link to="/defis" className="btn btn-primary join-item">Voir les défis</Link>
