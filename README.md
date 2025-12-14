@@ -1,180 +1,336 @@
-# Challenge – Mini réseau social de défis (MVP)
+# 🎯 Challenge
 
-Challenge est un mini réseau social de défis pour étudiants. Le MVP livré inclut l’authentification, la création et l’interaction autour des défis, le chat en temps réel, les likes (défis et commentaires) et une interface d’administration pour la validation des comptes.
+> Un réseau social de défis pour étudiants de La Plateforme_
 
----
+**Challenge** est une plateforme collaborative où les étudiants peuvent créer, partager et participer à des défis créatifs. Échangez en temps réel, gagnez des points et grimpez dans le classement !
 
-## Fonctionnalités
-
-- Authentification JWT avec restriction d’email `@laplateforme.io`, vérification d’email et validation manuelle par admin
-- Profils utilisateurs: pseudo, ville, promo, avatar, édition de profil
-- Défis: liste avec filtres, tri (récents/likés/commentés), détail, création avec upload image/vidéo
-- Interactions: commentaires, participations, likes sur défis et commentaires (gestion optimiste + temps réel)
-- Chat: canal public et messages privés (DM) en temps réel avec indicateurs de saisie et statut en ligne
-- Administration: validation de comptes, modération de contenus (challenges, commentaires, participations)
+![Stack](https://img.shields.io/badge/Stack-React%20%7C%20Node.js%20%7C%20SQLite-blue)
+![Status](https://img.shields.io/badge/Status-MVP-success)
 
 ---
 
-## Stack Technique
+## ✨ Fonctionnalités
 
-- Frontend: React + Vite, TailwindCSS, DaisyUI, Axios
-- Backend: Node.js, Express, Socket.io
-- Base de données: SQLite (better‑sqlite3)
+### 🔐 Authentification & Profils
+- Inscription avec email `@laplateforme.io` uniquement
+- Vérification d'email et validation manuelle par administrateur
+- Profils personnalisables : pseudo, ville, promotion, avatar
+- Édition de profil et changement de mot de passe
+
+### 🎮 Défis
+- **Création** : texte, images, vidéos avec catégorisation
+- **Découverte** : filtres par catégorie, tri par popularité/récence
+- **Interaction** : commentaires, participations avec preuve photo/vidéo
+- **Réactions** : système de likes sur défis et commentaires
+
+### 💬 Chat en Temps Réel
+- Canal public pour toute la communauté
+- Messages privés (DM) entre utilisateurs
+- Indicateurs de saisie et statut en ligne
+- Notifications sonores configurables
+
+### 🏆 Gamification
+- Points pour création et participation
+- Classement global (points & reconnaissance)
+- Badges de réalisation
+- Statistiques personnelles détaillées
+
+### 👨‍💼 Administration
+- Validation des nouveaux comptes
+- Modération de contenus (défis, commentaires, participations)
+- Tableau de bord de supervision
 
 ---
 
-## Structure du Projet
+## 🛠 Stack Technique
 
-- `backend/` serveur Express + routes API
-  - `app.mjs` point d’entrée du serveur
-  - `config/database.mjs` initialisation SQLite + chargement du schéma
-  - `database/schema.sql` schéma complet (users, challenges, comments, participations, likes, messages, channels)
-  - `routes/*.mjs` routes par domaine (auth, challenges, likes, chat, direct, admin, me, directory)
-  - `controllers/*.mjs` logique API et intégration Socket.io
-  - `models/*.mjs` accès aux données
-  - `scripts/seed-demo.mjs` jeu de données de démonstration
-- `frontend/` application React
-  - Pages: `ChallengeList.jsx`, `ChallengeDetail.jsx`, `ChallengeCreate.jsx`, `Login.jsx`, `Register.jsx`, `Profile.jsx`, `Admin.jsx`, `Chat.jsx`, `Users.jsx`, `Leaderboard.jsx`
-  - Composants: `LikeButton.jsx`, `ChallengeCard.jsx`, `ThemeSidebar.jsx`, `DMTray.jsx`, `Toast.jsx`
-  - `src/services/socket.js` client Socket.io
-  - `vite.config.js` proxy dev vers le backend
+| Couche | Technologies |
+|--------|-------------|
+| **Frontend** | React 18, Vite, TailwindCSS, DaisyUI |
+| **Backend** | Node.js, Express, Socket.io |
+| **Base de données** | SQLite (better-sqlite3) |
+| **Authentification** | JWT (cookies + headers) |
+| **Temps réel** | WebSocket (Socket.io) |
+| **Upload** | Multer (images/vidéos) |
 
 ---
 
-## Installation & Démarrage
+## 🚀 Installation
 
-### Backend
-- `cd backend`
-- `npm install`
-- Créer `.env` (optionnel mais recommandé):
-  - `PORT=5000`
-  - `CORS_ORIGIN=http://localhost:5173`
-  - `PRIVATE_JWT_KEY=dev-secret` (ou `JWT_SECRET`)
-  - `DATABASE_PATH=backend/database/database.sqlite` (optionnel)
-  - `ALLOW_UNVERIFIED_LOGIN=true` (dev: autoriser la connexion avant validation)
-- Démarrer: `node app.mjs`
+### Prérequis
+- Node.js 18+ 
+- npm ou yarn
+
+### 1️⃣ Cloner le projet
+```bash
+git clone https://github.com/votre-username/challenge.git
+cd challenge
+```
+
+### 2️⃣ Backend
+
+```bash
+cd backend
+npm install
+```
+
+Créer un fichier `.env` :
+```env
+PORT=5000
+CORS_ORIGIN=http://localhost:5173
+PRIVATE_JWT_KEY=votre-secret-super-securise
+ALLOW_UNVERIFIED_LOGIN=true  # Dev uniquement
+```
+
+Démarrer le serveur :
+```bash
+node app.mjs
+```
+
+Le serveur démarre sur `http://localhost:5000`
+
+### 3️⃣ Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+L'application est accessible sur `http://localhost:5173`
+
+### 4️⃣ Données de démo (optionnel)
+
+```bash
+node backend/scripts/seed-demo.mjs
+```
+
+Génère des utilisateurs, défis et interactions de test.
+
+---
+
+## 📁 Structure du Projet
+
+```
+challenge/
+├── backend/
+│   ├── app.mjs                 # Point d'entrée serveur
+│   ├── config/
+│   │   └── database.mjs        # Configuration SQLite
+│   ├── database/
+│   │   ├── schema.sql          # Schéma de la base
+│   │   └── database.sqlite     # Base de données
+│   ├── controllers/            # Logique métier
+│   ├── models/                 # Accès aux données
+│   ├── routes/                 # Routes API
+│   └── scripts/
+│       └── seed-demo.mjs       # Jeu de données
+│
+└── frontend/
+    ├── src/
+    │   ├── components/         # Composants React
+    │   ├── pages/              # Pages principales
+    │   ├── services/           # API & Socket.io
+    │   └── App.jsx
+    └── vite.config.js          # Config Vite + proxy
+```
+
+---
+
+## 🔌 API Endpoints
+
+### Authentification (`/api/auth`)
+```
+POST   /register              # Inscription
+POST   /login                 # Connexion
+POST   /logout                # Déconnexion
+POST   /verify-email          # Vérification email
+GET    /get/:id               # Info utilisateur public
+```
+
+### Utilisateur (`/api/users/me`)
+```
+GET    /users/me              # Profil utilisateur
+PUT    /users/me              # Modifier profil
+PUT    /users/me/avatar       # Upload avatar
+GET    /users/me/stats        # Statistiques
+PUT    /users/me/password     # Changer mot de passe
+```
+
+### Défis (`/api/challenges`)
+```
+GET    /challenges            # Liste des défis
+POST   /challenges            # Créer un défi
+GET    /challenges/:id        # Détail d'un défi
+GET    /challenges/:id/comments          # Commentaires
+POST   /challenges/:id/comments          # Ajouter commentaire
+GET    /challenges/:id/participations    # Participations
+POST   /challenges/:id/participations    # Participer
+```
+
+### Likes (`/api/likes`)
+```
+POST   /likes                 # Ajouter un like
+DELETE /likes/:id             # Retirer un like
+GET    /challenges/:id/likes  # Likes d'un défi
+GET    /comments/:id/likes    # Likes d'un commentaire
+```
+
+### Chat (`/api/chat`)
+```
+GET    /chat/messages                     # Messages publics
+POST   /chat/messages                     # Envoyer message
+GET    /chat/direct/:userId/messages      # Historique DM
+POST   /chat/direct/:userId/messages      # Envoyer DM
+```
+
+### Autres
+```
+GET    /directory/users       # Annuaire étudiants
+GET    /users/online          # Utilisateurs en ligne
+GET    /leaderboard           # Classement
+```
+
+### Administration (`/api/admin`)
+```
+GET    /admin/users/pending              # Comptes en attente
+PUT    /admin/users/:id/validate         # Valider compte
+GET    /admin/content/challenges         # Défis à modérer
+DELETE /admin/challenges/:id             # Supprimer défi
+GET    /admin/content/comments           # Commentaires signalés
+DELETE /admin/comments/:id               # Supprimer commentaire
+GET    /admin/participations             # Participations
+```
+
+---
+
+## 🔄 Événements Socket.io
+
+### Connexions
+- `user:online` - Utilisateur connecté
+- `user:offline` - Utilisateur déconnecté
+
+### Chat
+- `message:receive` - Nouveau message public
+- `dm:receive` - Nouveau message privé
+- `typing:start` / `typing:stop` - Indicateurs de saisie
+- `dm:typing:start` / `dm:typing:stop` - Saisie en DM
+
+### Contenus
+- `challenge:new` - Nouveau défi publié
+- `comment:new` - Nouveau commentaire
+- `like:added` / `like:removed` - Likes en temps réel
+
+### Authentification
+- `user:registered` - Nouvel utilisateur
+- `user:validated` - Compte validé par admin
+
+---
+
+## 🎨 Configuration Frontend
+
+Variables d'environnement optionnelles (`.env`) :
+
+```env
+VITE_API_URL=http://localhost:5000/api
+VITE_SOCKET_URL=http://localhost:5000
+VITE_TINYMCE_LICENSE_KEY=gpl
+```
+
+### Préférences utilisateur (localStorage)
+- `pref:chatSound` - Sons de chat (true/false)
+- `pref:notifySound` - Sons de notifications (true/false)
+- `pref:chatSoundVol` - Volume chat (0-100)
+- `pref:notifySoundVol` - Volume notifications (0-100)
+
+---
+
+## 🔒 Sécurité
+
+- ✅ Mots de passe hachés avec bcrypt
+- ✅ Authentification JWT (cookies + headers)
+- ✅ Validation stricte des entrées
+- ✅ Protection CORS configurée
+- ✅ Restriction email `@laplateforme.io`
+- ✅ Validation manuelle par administrateur
+- ✅ Rate limiting sur les endpoints sensibles
+
+---
+
+## 📱 Pages Disponibles
+
+| Route | Description |
+|-------|-------------|
+| `/` | Page d'accueil |
+| `/connexion` | Connexion |
+| `/inscription` | Inscription |
+| `/defis` | Liste des défis |
+| `/defis/nouveau` | Créer un défi |
+| `/defis/:id` | Détail d'un défi |
+| `/profil` | Profil utilisateur |
+| `/admin` | Interface administration |
+| `/chat` | Chat public |
+| `/chat/direct/:userId` | Messages privés |
+| `/etudiants` | Annuaire |
+| `/classements` | Leaderboard |
+
+---
+
+## 🐛 Debug & Développement
+
+### Activer les sons en dev
+```javascript
+// Dans la console navigateur
+localStorage.setItem('pref:chatSound', 'true');
+localStorage.setItem('pref:notifySound', 'true');
+```
+
+### Logs Socket.io
+```javascript
+// Côté frontend (src/services/socket.js)
+const socket = io(SOCKET_URL, { 
+  debug: true  // Ajouter cette option
+});
+```
+
+### Scripts utiles
+```bash
+# Frontend
+npm run dev       # Mode développement
+npm run build     # Build production
+npm run preview   # Prévisualiser build
+npm run lint      # Linter
+
+# Backend
+node app.mjs      # Démarrer serveur
+node backend/scripts/seed-demo.mjs  # Charger données demo
+```
+
+---
+
+## 🚢 Déploiement
 
 ### Frontend
-- `cd frontend`
-- `npm install`
-- Démarrer: `npm run dev`
-- Accès: `http://localhost:5173/`
+```bash
+cd frontend
+npm run build
+# Déployer le dossier dist/ sur votre hébergeur
+```
 
-Le proxy Vite est déjà configuré pour rediriger `'/api'`, `'/uploads'` et `'/socket.io'` vers `http://localhost:5000`.
+### Backend
+1. Configurer les variables d'environnement :
+```env
+PORT=5000
+CORS_ORIGIN=https://votre-domaine.com
+PRIVATE_JWT_KEY=secret-production-ultra-securise
+ALLOW_UNVERIFIED_LOGIN=false
+NODE_ENV=production
+```
 
-### Données de Démo (optionnel)
-- Exécuter: `node backend/scripts/seed-demo.mjs`
-- Créé des utilisateurs, défis, messages, likes, participations pour tester.
+2. Utiliser un gestionnaire de processus (PM2, systemd, Docker)
 
----
+3. Configurer un reverse proxy (Nginx, Caddy)
 
-## Routes Backend (Résumé)
-
-- Auth (`/api/auth`)
-  - `POST /register`, `POST /login`, `POST /logout`, `POST /verify-email`, `GET /get/:id`
-- Utilisateur courant (`/api/users/me`)
-  - `GET /users/me`, `PUT /users/me`, `PUT /users/me/avatar`, `GET /users/me/stats`, `PUT /users/me/password`
-- Challenges (`/api/challenges`)
-  - `GET /challenges`, `GET /challenges/:id`, `POST /challenges` (upload image/vidéo)
-  - `GET /challenges/:id/comments`, `POST /challenges/:id/comments`
-  - `GET /challenges/:id/participations/count`, `GET /challenges/:id/participations/me`, `PUT /challenges/:id/participations/me`, `POST /challenges/:id/participations`
-- Likes (`/api/likes`)
-  - `POST /likes`, `DELETE /likes/:id`
-  - `GET /challenges/:id/likes`, `GET /comments/:id/likes`
-  - `GET /likes/user/:userId?targetType=challenge|comment&targetId=...` (auth requis)
-- Chat public (`/api/chat`)
-  - `GET /chat/messages`, `POST /chat/messages`
-- Messages privés (`/api/chat/direct`)
-  - `GET /chat/direct/:userId/messages`, `POST /chat/direct/:userId/messages`
-- Annuaire & Classement (`/api`)
-  - `GET /directory/users`, `GET /users/online`, `GET /leaderboard?metric=points|recognition&page=&pageSize=`
-- Administration (`/api/admin`)
-  - `GET /admin/users/pending`, `GET /admin/users/unverified-email`
-  - `PUT /admin/users/:id/validate`, `PUT /admin/users/:id/verify-email`
-  - `GET /admin/content/challenges`, `DELETE /admin/challenges/:id`
-  - `GET /admin/content/comments`, `DELETE /admin/comments/:id`
-  - `GET /admin/participations?status=pending|approved|rejected|all`
+4. Persister `database.sqlite` sur un volume
 
 ---
-
-## Événements Socket.io (Temps réel)
-
-- Connexions: `user:online`, `user:offline`
-- Chat général: `message:receive`, `typing:start`, `typing:stop`
-- Messages privés: `dm:receive`, `dm:typing:start`, `dm:typing:stop`
-- Défis: `challenge:new`
-- Commentaires: `comment:new`
-- Likes: `like:added`, `like:removed`
-- Auth: `user:registered`, `user:login_unvalidated`, `user:validated`
-
----
-
-## Sons & Notifications
-
-- Sons intégrés pour chats/notifications côté frontend.
-- Fichier: `frontend/src/services/sound.js` expose `playChatSound` et `playNotificationSound`.
-- Préférences via `localStorage`:
-  - `pref:chatSound` (true/false), `pref:notifySound` (true/false)
-  - `pref:chatSoundVol` (0–100), `pref:notifySoundVol` (0–100)
-- Les DMs jouent un son à la réception (voir `frontend/src/components/Chat/DMTray.jsx`), déclenché sur l’événement `dm:receive`.
-- Exemple d’activation rapide (dans la console navigateur):
-  - `localStorage.setItem('pref:chatSound','true')`
-  - `localStorage.setItem('pref:notifySound','true')`
-
----
-
-## Configuration Frontend
-
-- Variables d’environnement optionnelles:
-  - `VITE_API_URL` pour forcer la base des appels API (sinon proxy `'/api'`)
-  - `VITE_SOCKET_URL` pour pointer le client Socket.io (sinon `window.location.origin`)
-  - `VITE_TINYMCE_LICENSE_KEY` (par défaut `gpl`) pour l’éditeur de description des défis
-- Le proxy Vite gère `'/api'`, `'/uploads'` et `'/socket.io'` en dev.
-
----
-
-## Pages Frontend (Routes)
-
-- `/` Accueil
-- `/connexion`, `/inscription`
-- `/defis`, `/defis/nouveau`, `/defis/:id`
-- `/profil`
-- `/admin`
-- `/chat`, `/chat/direct/:userId`
-- `/etudiants` (annuaire), `/classements` (leaderboard)
-
-La UI utilise DaisyUI et TailwindCSS, avec composants réutilisables (`LikeButton`, `CategoryBadge`, `Toast`, etc.).
-
----
-
-## Notes de Sécurité
-
-- Mots de passe hachés (`bcrypt`)
-- JWT stocké via cookie + header Authorization
-- Validation stricte des entrées côté serveur
-- Restriction emails `@laplateforme.io`, validation admin
-
----
-
-## Scripts Utiles
-
-- Frontend: `npm run dev`, `npm run build`, `npm run preview`, `npm run lint`
-- Backend: démarrage `node app.mjs` (prévoir un script `start` si besoin)
-- Seed: `node backend/scripts/seed-demo.mjs`
-
----
-
-## Déploiement (aperçu)
-
-- Servir le frontend compilé (`npm run build`) derrière un serveur web
-- Exposer l’API Express (`PORT` par défaut 5000)
-- Configurer `CORS_ORIGIN` et les variables JWT
-- Utiliser un volume persistant pour `database.sqlite`
-
----
-
-## État du MVP
-
-- Les fonctionnalités obligatoires sont en place (auth, défis, interactions, chat, admin)
-- Le système de likes complet est implémenté (backend + frontend + Socket.io)
-- Prêt pour démo live et présentation (architecture, choix techniques, difficultés)
