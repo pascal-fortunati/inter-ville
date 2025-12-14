@@ -1,6 +1,8 @@
+// Garde de route RequireAuth
+// - Redirige vers /login si non authentifié
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
-
+// - Utilise le contexte d'authentification pour vérifier l'état
 export default function RequireAuth({ children }) {
   const { isAuthenticated } = useAuth();
   const location = useLocation();

@@ -1,5 +1,5 @@
 {
-  "name": "frontendvite",
+  "name": "challenges",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,12 +11,16 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.17",
+    "@tinymce/tinymce-react": "^6.3.0",
     "axios": "^1.7.7",
     "daisyui": "^5.5.8",
+    "dompurify": "^3.3.1",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "react-router-dom": "^6.26.2",
-    "tailwindcss": "^4.1.17"
+    "socket.io-client": "^4.8.1",
+    "tailwindcss": "^4.1.17",
+    "tinymce": "^8.3.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

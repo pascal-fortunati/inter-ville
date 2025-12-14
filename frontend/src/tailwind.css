@@ -1,2 +1,6 @@
+/* Configuration TailwindCSS + DaisyUI */
 @import "tailwindcss";
-@plugin "daisyui";
+
+@plugin "daisyui" {
+  themes: all;
+}

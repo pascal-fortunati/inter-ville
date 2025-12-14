@@ -1,75 +1,96 @@
-import { Link  } from "react-router-dom";
+// Page d'accueil
+// - Affiche un hero, des stats rapides
+// - Liste les 5 derniers challenges et les 5 meilleurs
+import { Link } from "react-router-dom";
 import ChallengeCard from "./components/ChallengeCard";
-// TODO: fetch challenges from API
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import api from './api/client';
 
-// ----------------------------------------------------------------
-// Elements à décommenter une fois le back/front liés
-
-// const [challenges, setChallenges] = useState([]);
-// const [loading, setLoading] = useState(true);
-// const [error, setError] = useState(null);
-
-// useEffect(() => {
-//   const fetchChallenges = async () => {
-//     try {
-//       const response = await axios.get('/api/challenges');
-//       setChallenges(response.data);
-//     } catch (err) {
-//       setError(err);
-//       console.error("Error fetching challenges:", err);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   fetchChallenges();
-// }, []);
-
-// ----------------------------------------------------------------
-
-const challenges = [
-  { id: 1, title: "Challenge 1", theme: "Thème 1", participationCount: 10, summary: "Description du challenge 1" },
-  { id: 2, title: "Challenge 2", theme: "Thème 2", participationCount: 20, summary: "Description du challenge 2" },
-  { id: 3, title: "Challenge 3", theme: "Thème 3", participationCount: 30, summary: "Description du challenge 3" },
-  { id: 4, title: "Challenge 4", theme: "Thème 4", participationCount: 40, summary: "Description du challenge 4" },
-];
-
-const getChallengesWithMostParticipants = (challenges) => {
-  if (!challenges || challenges.length === 0) {
-    return [];
-  }
-  const maxParticipants = Math.max(...challenges.map(challenge => challenge.participants || 0));
-  return challenges.filter(challenge => (challenge.participants || 0) === maxParticipants);
-};
-
+const EMPTY = [];
 
 export default function Home() {
+  const [latest, setLatest] = useState(EMPTY);
+  const [top, setTop] = useState(EMPTY);
+  const [loading, setLoading] = useState(false);
+  const [_stats, setStats] = useState({ challenges: 0, comments: 0, likes: 0 });
+  useEffect(() => {
+    async function load() {
+      setLoading(true);
+      try {
+        const [rRecent, rTop] = await Promise.all([
+          api.get('/challenges', { params: { sort: 'recent', page: 1, pageSize: 3 } }),
+          api.get('/challenges', { params: { sort: 'likes', page: 1, pageSize: 3 } }),
+        ]);
+        const recentItems = rRecent.data?.items ? rRecent.data.items : (Array.isArray(rRecent.data) ? rRecent.data : []);
+        const topItems = rTop.data?.items ? rTop.data.items : (Array.isArray(rTop.data) ? rTop.data : []);
+        setLatest(recentItems.slice(0, 3));
+        setTop(topItems.slice(0, 3));
+        const map = new Map();
+        [...recentItems, ...topItems].forEach(ch => { if (ch && ch.id != null) map.set(ch.id, ch); });
+        const all = Array.from(map.values());
+        const challenges = all.length;
+        const comments = all.reduce((a, b) => a + (b.comments_count || 0), 0);
+        const likes = all.reduce((a, b) => a + (b.likes_count || 0), 0);
+        setStats({ challenges, comments, likes });
+      } finally {
+        setLoading(false);
+      }
+    }
+    load();
+  }, []);
   return (
-    <main className="flex flex-col min-[90vh]">
-      <section className="hero min-h-[40vh]">
-        <div className="hero-content text-center">
-          <div className="max-w-md">
-            <h1 className="text-5xl font-semibold">Inter Ville</h1>
-            <p className="py-6">
-              plateforme de challenges réservée aux éléves de La Plateforme <br /> <span className="italic">créez, participez, recommencez</span>
-            </p>
+    <div className="min-h-screen bg-base-200">
+      <div className="container mx-auto px-4 py-8">
+        <section className="hero min-h-[40vh] bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl">
+          <div className="hero-content text-center">
+            <div className="max-w-xl">
+               <div className="flex flex-col items-center justify-center gap-3">
+                <div
+                  className="h-12 w-[220px]"
+                  role="img"
+                  aria-label="La Plateforme"
+                  style={{
+                    WebkitMaskImage: 'url(/logo.lp.png)',
+                    maskImage: 'url(/logo.lp.png)',
+                    WebkitMaskRepeat: 'no-repeat',
+                    maskRepeat: 'no-repeat',
+                    WebkitMaskPosition: 'center',
+                    maskPosition: 'center',
+                    WebkitMaskSize: 'contain',
+                    maskSize: 'contain',
+                    backgroundColor: 'hsl(var(--p))',
+                  }}
+                />
+                <h1 className="text-5xl font-semibold">Challenges</h1>
+              </div>
+              <p className="py-6">Challenges des étudiants. Crée, participe, recommence.</p>
+              <div className="join">
+                <Link to="/defis" className="btn btn-primary join-item">Voir les défis</Link>
+                <Link to="/defis/nouveau" className="btn btn-ghost join-item">Créer un défis</Link>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
-      <section>
-        <h2 className="text-2xl font-bold mb-4 text-center">Aperçu des challenges</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center px-16 pt-8">
-          {challenges.map(challenge => (
-            <ChallengeCard key={challenge.id} challenge={challenge} />
-          ))}
-        </div>
-        <div className="flex justify-center mt-16">
-          <Link to="/challenges" className="btn btn-primary">Voir tous les challenges</Link>
-        </div>
+        </section>
+        <section className="mt-8">
+          <h2 className="text-2xl font-bold my-6">Derniers défis</h2>
+          {loading && <div className="loading loading-dots loading-lg" />}
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+            {latest.map(ch => (
+              <ChallengeCard key={ch.id} challenge={ch} />
+            ))}
+          </div>
+          {!loading && latest.length === 0 && <div className="alert mt-4">Aucun défis récent</div>}
 
-      </section>
-    </main>
+          <h2 className="text-2xl font-bold my-6">Meilleurs défis</h2>
+          {loading && <div className="loading loading-dots loading-lg" />}
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+            {top.map(ch => (
+              <ChallengeCard key={ch.id} challenge={ch} />
+            ))}
+          </div>
+          {!loading && top.length === 0 && <div className="alert mt-4">Aucun défis populaire</div>}
+        </section>
+      </div>
+    </div>
   );
 }
