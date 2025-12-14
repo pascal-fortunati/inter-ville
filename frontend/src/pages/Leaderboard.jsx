@@ -35,7 +35,7 @@ export default function Leaderboard() {
     <Page
       icon="leaderboard"
       title="Classement"
-      subtitle={`Top des élèves par ${metric === 'points' ? 'points' : 'reconnaissance'}`}
+      subtitle={`Top des étudiants par ${metric === 'points' ? 'points' : 'reconnaissance'}`}
       actions={(
         <>
           <select
