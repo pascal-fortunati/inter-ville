@@ -39,7 +39,10 @@ export default function ThemeSidebar() {
         <div className="p-4 border-b border-base-300 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined">palette</span>
-            <div className="font-bold">Thèmes</div>
+            <div className="flex flex-col">
+              <div className="font-bold">Thèmes</div>
+              <div className="text-xs opacity-70">Actuel: {theme}</div>
+            </div>
           </div>
           <button className="btn btn-ghost btn-sm" onClick={() => setOpen(false)} title="Fermer">
             <span className="material-symbols-outlined">close</span>
@@ -53,10 +56,17 @@ export default function ThemeSidebar() {
               return (
                 <div
                   key={t}
-                  className={`border-base-content/20 hover:border-base-content/40 overflow-hidden rounded-md border outline-2 outline-offset-2 outline-transparent ${activeCls}`}
+                  className={`border-base-content/20 hover:border-base-content/40 overflow-hidden rounded-md border outline-2 outline-offset-2 outline-transparent ${activeCls} relative`}
                   data-set-theme={t}
+                  aria-current={active ? 'true' : 'false'}
                   onClick={() => applyTheme(t)}
                 >
+                  {active && (
+                    <div className="absolute top-2 right-2 badge badge-success gap-1">
+                      <span className="material-symbols-outlined">check_circle</span>
+                      <span>Actif</span>
+                    </div>
+                  )}
                   <div className="bg-base-100 text-base-content w-full cursor-pointer font-sans" data-theme={t}>
                     <div className="grid grid-cols-5 grid-rows-3">
                       <div className="bg-base-200 col-start-1 row-span-2 row-start-1"></div>
