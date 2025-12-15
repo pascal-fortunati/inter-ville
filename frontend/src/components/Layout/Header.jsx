@@ -185,12 +185,6 @@ const Header = () => {
                   Connexion
                 </NavLink>
               </li>
-              <li>
-                <NavLink to="/inscription" className={({ isActive }) => `flex items-center gap-2 px-2 py-1 rounded-md ${isActive ? 'text-primary font-semibold bg-base-200' : 'hover:bg-base-200'}`}>
-                  <span className="material-symbols-outlined">person_add</span>
-                  Inscription
-                </NavLink>
-              </li>
             </>
           )}
         </ul>
@@ -255,12 +249,6 @@ const Header = () => {
                 <NavLink to="/connexion" onClick={() => setMobileOpen(false)} className={({ isActive }) => `text-lg px-3 py-3 rounded-lg flex items-center gap-3 ${isActive ? 'text-primary font-semibold bg-base-200' : 'hover:bg-base-200'}`}>
                   <span className="material-symbols-outlined">login</span>
                   Connexion
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/inscription" onClick={() => setMobileOpen(false)} className={({ isActive }) => `text-lg px-3 py-3 rounded-lg flex items-center gap-3 ${isActive ? 'text-primary font-semibold bg-base-200' : 'hover:bg-base-200'}`}>
-                  <span className="material-symbols-outlined">person_add</span>
-                  Inscription
                 </NavLink>
               </li>
             </>
