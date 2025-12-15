@@ -1,10 +1,10 @@
 import db from "../config/database.mjs"
 
 
-export function createUser(username, email, password, town, promo) {
-    const query = "INSERT INTO users (username,email,password,town,promo) VALUES (?,?,?,?,?)";
+export function createUser(username, name, lastname, email, password, town, promo) {
+    const query = "INSERT INTO users (username,name,lastname,email,password,town,promo) VALUES (?,?,?,?,?,?,?)";
     const stmt = db.prepare(query);
-    const result = stmt.run(username, email, password, town, promo);
+    const result = stmt.run(username, name, lastname, email, password, town, promo);
     return result
 }
 

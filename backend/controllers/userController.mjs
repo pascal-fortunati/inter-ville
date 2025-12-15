@@ -52,9 +52,9 @@ export function getUsers(req, res) {
 
 export async function register(req, res) {
     try {
-        const { username, email, password, confirmPassword, town, promo } = req.body;
+        const { username, name, lastname, email, password, confirmPassword, town, promo } = req.body;
 
-        if (!username || !email || !password || !confirmPassword || !town || !promo) {
+        if (!username || !name || !lastname || !email || !password || !confirmPassword || !town || !promo) {
             return sendErrors(res, { global: "Tous les champs sont nécessaires." }, 400);
         }
 
@@ -76,7 +76,7 @@ export async function register(req, res) {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        createUser(username, email, hashedPassword, town, promo);
+        createUser(username, name, lastname, email, hashedPassword, town, promo);
 
         return res.status(201).json({ message: "Inscription réussie !" });
     } catch (err) {
