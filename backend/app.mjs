@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import express from "express";
 import "./config/database.mjs"
 import userRoutes from "./routes/userRoutes.mjs"
+import channelRoutes from "./routes/channelRoutes.mjs";
+import messageRoutes from "./routes/messageModel.mjs"
 
 dotenv.config();
 
@@ -19,7 +21,9 @@ app.use(cors({
 
 //routes global 
 
-app.use("/users",userRoutes);
+app.use("/users", userRoutes);
+app.use("/channels", channelRoutes);
+app.use("/messages", messageRoutes)
 
 
 
