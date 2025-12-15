@@ -1,4 +1,5 @@
 let audioCtx;
+let unlocked = false;
 function ensure() {
   if (!audioCtx) {
     const Ctx = window.AudioContext || window.webkitAudioContext;
@@ -8,8 +9,15 @@ function ensure() {
   if (audioCtx.state === 'suspended') {
     try { audioCtx.resume(); } catch { void 0 }
   }
-  return !!audioCtx;
+  return !!audioCtx && audioCtx.state === 'running';
 }
+function setupUnlock() {
+  if (unlocked) return;
+  if (ensure()) { unlocked = true; return; }
+  const handler = () => { if (ensure()) { unlocked = true; } };
+  ['click','keydown','touchstart'].forEach(ev => { window.addEventListener(ev, handler, { once: true, capture: true }); });
+}
+setupUnlock();
 function pref(key, def = true) {
   try {
     const v = localStorage.getItem(key);
