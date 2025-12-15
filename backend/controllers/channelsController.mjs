@@ -4,8 +4,11 @@ import {
     addUserToChannel,
     deleteChannel,
     removeUserFromChannel,
-    changeUserRoleOnChannel
+    changeUserRoleOnChannel,
+    getAllChannel,
+    getAllUsersFromChannelId
 } from "../models/channelModel.mjs";
+
 
 const sendErrors = (res, errors, status = 400) => {
     return res.status(status).json({ errors });
@@ -152,5 +155,40 @@ export function changeUserRoleOnChan(req, res) {
         return res.status(200).json({ message: "Rôle changé avec succès !" });
     } catch (err) {
         return catchError(res, err);
+    }
+}
+
+export function getAllChan(req, res) {
+    try {
+        const channels = getAllChannel();
+
+        if (!channels) {
+            return sendErrors(res, { global: "Aucun channels pour le moment" }, 400)
+        }
+
+
+        return res.status(200).json(channels);
+    } catch (err) {
+        return catchError(res, err)
+    }
+}
+
+export function getAllUsersFromChannel(req, res) {
+    try {
+        const channelId = req.params.channelId;
+
+        if (!channelId) {
+            return sendErrors(res, { global: "Id obligatoire" }, 400);
+        }
+
+        const users = getAllUsersFromChannelId(channelId);
+
+        if (!users) {
+            return sendErrors(res, { global: "Aucun utilisateur" }, 400)
+        }
+
+        return res.status(200).json(users);
+    } catch (err) {
+        return catchError(res, err)
     }
 }
