@@ -75,7 +75,7 @@ export function getAllUsersFromChannelId(channelId) {
             users.town,
             users.promo,
             users.avatar,
-            users.role AS app_role,
+            users.role,
             channels_users.role AS channel_role,
             channels_users.joined_at
         FROM channels_users
