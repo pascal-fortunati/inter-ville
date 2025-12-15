@@ -44,7 +44,7 @@ export function addUserToChannel(userId, channelId) {
 }
 
 export function removeUserFromChannel(userId, channelId) {
-    const query = "DELETE FROM channel_users WHERE user_id = ? AND channel_id = ?";
+    const query = "DELETE FROM channels_users WHERE user_id = ? AND channel_id = ?";
     const stmt = db.prepare(query);
     const result = stmt.run(userId, channelId)
     return result.changes;
