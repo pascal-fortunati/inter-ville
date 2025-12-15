@@ -47,7 +47,7 @@
 | Couche | Technologies |
 |--------|-------------|
 | **Frontend** | React 18, Vite, TailwindCSS, DaisyUI |
-| **Backend** | Node.js, Express, Socket.io |
+| **Backend** | Node.js v22.12.0, Express, Socket.io |
 | **Base de données** | SQLite (better-sqlite3) |
 | **Authentification** | JWT (cookies + headers) |
 | **Temps réel** | WebSocket (Socket.io) |
