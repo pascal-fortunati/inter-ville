@@ -21,6 +21,6 @@ router.delete("/delete/:channelId", isLoggedInJWT(), deleteChan); //
 router.get("/:channelId/users", isLoggedInJWT(), getAllUsersFromChannel) //
 router.post("/add/user/:channelId/:userId", isLoggedInJWT(), addUserToChan); // 
 router.delete("/delete/user/:channelId/:userId", isLoggedInJWT(), removeUserFromChan); //
-router.put("/update/user/:channelId/:userId", isLoggedInJWT(), changeUserRoleOnChan);
+router.put("/update/user/:channelId/:userId", isLoggedInJWT(), changeUserRoleOnChan); // 
 
 export default router;
