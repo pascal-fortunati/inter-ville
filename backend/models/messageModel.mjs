@@ -20,7 +20,7 @@ export function getAllMessagesByChannelId(channelId, offset = 0) {
     return stmt.all(channelId, offset);
 }
 
-export function updateMessageByMessageId(content, messageId, userId) {
+export function updateMessageById(content, messageId, userId) {
     const query = "UPDATE messages SET content = ? WHERE id = ? AND user_id = ?";
     const stmt = db.prepare(query);
     const result = stmt.run(content, messageId, userId);

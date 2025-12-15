@@ -6,6 +6,7 @@ import "./config/database.mjs"
 import userRoutes from "./routes/userRoutes.mjs"
 import channelRoutes from "./routes/channelRoutes.mjs";
 import messageRoutes from "./routes/messageModel.mjs"
+import helmet from "helmet"
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(helmet())
 app.use(cors({
     origin: "http://localhost:5173", // Mettre le "serveur react"
     methods: ["GET", "POST", "PUT", "DELETE"],

@@ -6,7 +6,7 @@ import {
     removeUserFromChan,
     changeUserRoleOnChan
 } from "../controllers/channelsController.mjs";
-import isLoggedInJWT from "../middlewares/isLoggedInJwt.mjs"
+import { isLoggedInJWT } from "../middlewares/isLoggedInJwt.mjs"
 import express from "express";
 
 const router = express.Router();
