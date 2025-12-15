@@ -1,6 +1,7 @@
 let audioCtx;
 let unlocked = false;
 function ensure() {
+  if (!unlocked) return false;
   if (!audioCtx) {
     const Ctx = window.AudioContext || window.webkitAudioContext;
     if (!Ctx) return false;
@@ -13,11 +14,11 @@ function ensure() {
 }
 function setupUnlock() {
   if (unlocked) return;
-  if (ensure()) { unlocked = true; return; }
-  const handler = () => { if (ensure()) { unlocked = true; } };
-  ['click','keydown','touchstart'].forEach(ev => { window.addEventListener(ev, handler, { once: true, capture: true }); });
+  const handler = () => { unlocked = true; ensure(); };
+  ['click','keydown','touchstart','pointerdown'].forEach(ev => { window.addEventListener(ev, handler, { once: true, capture: true }); });
 }
 setupUnlock();
+export function unlockAudio() { unlocked = true; ensure(); }
 function pref(key, def = true) {
   try {
     const v = localStorage.getItem(key);
